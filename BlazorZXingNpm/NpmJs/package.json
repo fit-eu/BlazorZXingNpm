@@ -1,0 +1,19 @@
+{
+  "name": "npmjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build_zxing": "webpack ./src/zxing.js --mode production --config zxing.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zxing/library": "^0.18.4"
+  },
+  "devDependencies": {
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0"
+  }
+}

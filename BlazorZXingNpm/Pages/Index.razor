@@ -1,0 +1,82 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+@using System.Text.Json
+
+
+
+<BlazorZXingNpm.Components.BarcodeReader StartCameraAutomatically="true"
+                                                          Title="Scanner A"
+                                                          VideoWidth="400"
+                                                          VideoHeigth="300" />
+
+<p>result : @LocalBarcodeText</p>
+
+
+
+
+<div class="row mt-4">
+    <div class="col-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Barcodes/QRCodes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ResultList.Any())
+                {
+                    foreach (var result in ResultList)
+                    {
+                        <tr>
+                            @result
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@code{
+
+    private string LocalBarcodeText;
+    private List<string> ResultList = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        BlazorZXingNpm.JsInteropClass.BarcodeReceived += LocalReceivedBarcodeText; // attach to Barcodereceived event
+    }
+
+    private async void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
+    {
+        this.LocalBarcodeText = args.BarcodeText;
+
+        ResultList.Insert(0, args.BarcodeText);
+
+        StateHasChanged();
+    }
+
+
+
+    protected async override void OnInitialized()
+    {
+
+
+
+    }
+
+
+
+
+
+
+}
+
